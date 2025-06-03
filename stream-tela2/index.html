@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- viewer.html -->
+    <img id="stream" />
+    <script>
+        const img = document.getElementById('stream');
+
+        async function fetchFrame() {
+            try {
+                const res = await fetch('http://localhost:3000/get-frame');
+                const data = await res.json();
+                if (data.frame) {
+                    img.src = data.frame;
+                }
+            } catch (e) {
+                console.error(e);
+            } finally {
+                fetchFrame(); // long polling contínuo
+            }
+        }
+
+        fetchFrame();
+    </script>
+
+</body>
+
+</html>
